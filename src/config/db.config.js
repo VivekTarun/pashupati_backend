@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const {PORT, DB_URL, NODE_ENV} = require('./server.config');
+const { DB_URL, NODE_ENV } = require('./server.config');
 
 async function connectToDB() {
     try {
-        if(NODE_ENV == "development") {
+        if (NODE_ENV == "development") {
             await mongoose.connect(DB_URL);
             console.log("Successfully connected Database");
         }

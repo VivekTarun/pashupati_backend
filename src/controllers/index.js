@@ -1,5 +1,4 @@
 module.exports = {
-    adminController : require('./admin.controller'),
-    clientController : require('./client.controller'),
-    
+    productController : require('./product.controller'),
+    categoryController : require('./category.controller')
 }

@@ -22,11 +22,16 @@ function addProduct(req, res) {
     return res.json({message : 'not implemented'});
 }
 
+function getProductByCategory(req, res) {
+    return res.json({message : 'not implement'});
+}
+
 module.exports = {
     pingProductController,
     getProducts,
     getProduct,
     deleteProduct,
     updateProduct,
-    addProduct
+    addProduct,
+    getProductByCategory
 }

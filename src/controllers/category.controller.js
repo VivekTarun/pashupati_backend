@@ -1,3 +1,5 @@
+
+
 function pingCategoryController(req, res) {
     return res.json({message : 'category controller is up'});
 }
@@ -21,7 +23,6 @@ function updateCategory(req, res) {
 function addCategory(req, res) {
     return res.json({message : 'not implemented'});
 }
-
 
 module.exports = {
     pingCategoryController,

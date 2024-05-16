@@ -1,4 +1,4 @@
-const { bucket } = require('../config')
+const { bucket } = require('../config');
 const deleteFile = require('../utils/deleteFile');
 const fs = require('fs').promises;
 const path = require('path');
@@ -57,7 +57,8 @@ class ProductService {
     }
 
     async getProduct(productID) {
-
+        const product = await this.productRepository.getProduct(productID);
+        return product;
     }
 
     async getProducts() {

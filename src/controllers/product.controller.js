@@ -13,7 +13,7 @@ async function getProducts(req, res, next) {
         const product = await productService.getProducts();
         return res.status(StatusCodes.OK).json({
             success : true,
-            message : `successfully added the product`,
+            message : `successfully fetched the product`,
             error : {},
             data : product
         })
@@ -22,8 +22,20 @@ async function getProducts(req, res, next) {
     }
 }
 
-function getProduct(req, res) {
-    return res.json({message : 'not implemented'});
+async function getProduct(req, res, next) {
+    try {
+        const productID = req.params.id;
+        const product = await productService.getProduct(productID);
+        return res.status(StatusCodes.OK).json({
+            success : true,
+            message : `successfully fetched the product`,
+            error : {},
+            data : product
+        })
+    } catch(error) {
+        next(error);
+    }
+
 }
 
 function deleteProduct(req, res) {

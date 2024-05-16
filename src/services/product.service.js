@@ -55,6 +55,28 @@ class ProductService {
             throw error;
         }
     }
+
+    async getProduct(productID) {
+
+    }
+
+    async getProducts() {
+        const product = await this.productRepository.getProducts();
+        return product;
+    }
+
+    async getProductByCategory() {
+
+    }
+
+    async deleteProduct() {
+
+    }
+
+    async updateProduct() {
+
+    }
+
 }
 
 

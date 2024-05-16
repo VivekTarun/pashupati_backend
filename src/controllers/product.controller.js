@@ -8,8 +8,18 @@ function pingProductController(req, res) {
     return res.status(StatusCodes.OK).json({message : "product controller is up"});
 }
 
-function getProducts(req, res) {
-    return res.json({message : 'not implemented'});
+async function getProducts(req, res, next) {
+    try {
+        const product = await productService.getProducts();
+        return res.status(StatusCodes.OK).json({
+            success : true,
+            message : `successfully added the product`,
+            error : {},
+            data : product
+        })
+    } catch (error) {
+        next(error);
+    }
 }
 
 function getProduct(req, res) {
@@ -29,7 +39,7 @@ async function postProduct(req, res, next) {
         const {title, description, amount, category} = req.body;
         const imageFile = req.file;
         const product = await productService.postProduct(title, description, amount, category, imageFile);
-        return res.status(StatusCodes.OK).json({
+        return res.status(StatusCodes.CREATED).json({
             success : true,
             message : `successfully added the product`,
             error : {},

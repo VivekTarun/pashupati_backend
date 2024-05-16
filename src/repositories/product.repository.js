@@ -16,6 +16,16 @@ class ProductRepository {
             throw error;
         }
     }
+
+    async getProducts() {
+        try {
+            const product = await Product.find({});
+            return product;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;

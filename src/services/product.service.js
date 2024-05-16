@@ -66,8 +66,9 @@ class ProductService {
         return product;
     }
 
-    async getProductByCategory() {
-
+    async getProductByCategory(categoryID) {
+        const product = await this.productRepository.getProductByCategory(categoryID);
+        return product;
     }
 
     async deleteProduct(productID) {

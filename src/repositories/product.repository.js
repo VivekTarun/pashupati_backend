@@ -53,6 +53,19 @@ class ProductRepository {
             throw error;
         }
     }
+
+    async getProductByCategory(categoryID) {
+        try {
+            const product = await Product.find({ category: categoryID })
+            return product;
+        } catch (error) {
+            if(error.name == "CastError") {
+                throw new BadRequest(categoryID, "category id is not Valid");
+            }
+            console.log(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;

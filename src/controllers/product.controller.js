@@ -74,8 +74,19 @@ async function postProduct(req, res, next) {
     }
 }
 
-function getProductByCategory(req, res) {
-    return res.json({message : 'not implement'});
+async function getProductByCategory(req, res, next) {
+    try {
+        const categoryID = req.params.categoryid;
+        const product = await productService.getProductByCategory(categoryID);
+        return res.status(StatusCodes.OK).json({
+            success : true,
+            message : `successfully fetched the product by category`,
+            error : {},
+            data : product
+        })
+    } catch(error) {
+        next(error);
+    }
 }
 
 module.exports = {

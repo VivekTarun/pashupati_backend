@@ -70,8 +70,9 @@ class ProductService {
 
     }
 
-    async deleteProduct() {
-
+    async deleteProduct(productID) {
+        const product = await this.productRepository.deleteProduct(productID);
+        return product;
     }
 
     async updateProduct() {

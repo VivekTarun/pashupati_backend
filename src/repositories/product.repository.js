@@ -40,6 +40,19 @@ class ProductRepository {
             throw error;
         }
     }
+
+    async deleteProduct(productID) {
+        try {
+            const product = await Product.findByIdAndDelete(productID);
+            return product;
+        } catch (error) {
+            if(error.name == "CastError") {
+                throw new BadRequest(productID, "product id is not Valid");
+            }
+            console.log(error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ProductRepository;

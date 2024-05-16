@@ -38,8 +38,19 @@ async function getProduct(req, res, next) {
 
 }
 
-function deleteProduct(req, res) {
-    return res.json({message : 'not implemented'});
+async function deleteProduct(req, res, next) {
+    try {
+        const productID = req.params.id;
+        const product = await productService.deleteProduct(productID);
+        return res.status(StatusCodes.OK).json({
+            success : true,
+            message : `successfully deleted the product`,
+            error : {},
+            data : product
+        })
+    } catch(error) {
+        next(error);
+    }
 }
 
 function updateProduct(req, res) {

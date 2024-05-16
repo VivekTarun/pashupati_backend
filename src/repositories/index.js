@@ -1,3 +1,4 @@
 module.exports = {
-    categoryRepository : require('./category.repository')
+    CategoryRepository : require('./category.repository'),
+    ProductRepository : require('./product.repository')
 }

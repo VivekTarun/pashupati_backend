@@ -1,5 +1,11 @@
+const { StatusCodes } = require("http-status-codes");
+const {ProductService} = require('../services')
+const {ProductRepository} = require('../repositories');
+
+const productService = new ProductService(new ProductRepository());
+
 function pingProductController(req, res) {
-    return res.json({message : "product controller is up"});
+    return res.status(StatusCodes.OK).json({message : "product controller is up"});
 }
 
 function getProducts(req, res) {
@@ -18,8 +24,21 @@ function updateProduct(req, res) {
     return res.json({message : 'not implemented'});
 }
 
-function addProduct(req, res) {
-    return res.json({message : 'not implemented'});
+async function postProduct(req, res, next) {
+    try {
+        const {title, description, amount, category} = req.body;
+        const imageFile = req.file;
+        const product = await productService.postProduct(title, description, amount, category, imageFile);
+        return res.status(StatusCodes.OK).json({
+            success : true,
+            message : `successfully added the product`,
+            error : {},
+            data : product
+        })
+        
+    } catch(error) {
+        next(error);
+    }
 }
 
 function getProductByCategory(req, res) {
@@ -32,6 +51,6 @@ module.exports = {
     getProduct,
     deleteProduct,
     updateProduct,
-    addProduct,
+    postProduct,
     getProductByCategory
 }

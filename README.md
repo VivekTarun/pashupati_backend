@@ -3,6 +3,63 @@
 ## Introduction
 This document provides an overview of the API endpoints and data models for the product and category management system.
 
+# Project Folder Structure
+
+## PASHUPATI_BACKEND
+
+```plaintext
+PASHUPATI_BACKEND/
+├── node_modules/
+├── src/
+│   ├── config/
+│   │   ├── db.config.js
+│   │   ├── gcs.config.js
+│   │   ├── index.js
+│   │   ├── multer.config.js
+│   │   └── server.config.js
+│   ├── controllers/
+│   │   ├── category.controller.js
+│   │   ├── index.js
+│   │   └── product.controller.js
+│   ├── errors/
+│   │   ├── badRequest.error.js
+│   │   ├── base.error.js
+│   │   ├── duplicateKey.error.js
+│   │   ├── duplicateUser.error.js
+│   │   ├── internalServer.error.js
+│   │   ├── notFound.error.js
+│   │   └── notImplemented.error.js
+│   ├── models/
+│   │   ├── category.model.js
+│   │   ├── index.js
+│   │   └── product.model.js
+│   ├── repositories/
+│   │   ├── category.repository.js
+│   │   ├── index.js
+│   │   └── product.repository.js
+│   ├── routes/
+│   │   └── v1/
+│   │       ├── category.routes.js
+│   │       ├── index.js
+│   │       └── product.routes.js
+│   ├── services/
+│   │   ├── category.service.js
+│   │   ├── index.js
+│   │   └── product.service.js
+│   ├── utils/
+│   │   ├── deleteFile.js
+│   │   ├── errorHandler.js
+│   │   └── index.js
+│   └── validators/
+│       └── index.js
+├── .env
+├── .gitignore
+├── keyfile.json
+├── package-lock.json
+└── package.json
+
+
+
 ## Table of Contents
 - [API Endpoints](#api-endpoints)
   - [Product Routes](#product-routes)

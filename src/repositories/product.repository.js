@@ -18,6 +18,19 @@ class ProductRepository {
         }
     }
 
+    async updateProduct(productID, updatedData) {
+        try {
+            const Updatedproduct = await Product.findByIdAndUpdate(productID, updatedData, {new : true});
+            return Updatedproduct;
+        } catch (error) {
+            // if(error.name == "CastError") {
+            //     throw new BadRequest(productID, "product id is not Valid");
+            // }
+            console.log(error);
+            throw error;
+        }
+    }
+
     async getProducts() {
         try {
             const product = await Product.find({});

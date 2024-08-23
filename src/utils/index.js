@@ -1,3 +1,6 @@
 module.exports = {
-    errorHandler : require('./errorHandler'),   
+    errorHandler : require('./errorHandler'),
+    deleteFile: require('./deleteFile'),
+    imageConverter : require('./imageConverter'),
+
 }

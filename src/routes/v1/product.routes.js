@@ -1,10 +1,14 @@
 const express = require('express');
 const {productController} = require('../../controllers/index');
-const productRouter = express.Router();
-const {upload} = require('../../config');
+const multer = require('multer');
 
+const productRouter = express.Router();
+
+const storage = multer.memoryStorage();
+const upload = multer({storage: storage});
 
 productRouter.get('/ping', productController.pingProductController);
+
 
 productRouter.get('/', productController.getProducts);
 

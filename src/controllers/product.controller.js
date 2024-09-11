@@ -73,11 +73,15 @@ async function updateProduct(req, res, next) {
     }
 }
 
+
+
 async function postProduct(req, res, next) {
+    
     try {
-        const {title, description, amount, category} = req.body;
+        const {title, description, amount, category, gender, material} = req.body;
         const imageFile = req.file;
-        const product = await productService.postProduct(title, description, amount, category, imageFile);
+
+        const product = await productService.postProduct(title, description, amount, category, gender, material, imageFile);
         return res.status(StatusCodes.CREATED).json({
             success : true,
             message : `successfully added the product`,

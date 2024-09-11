@@ -6,7 +6,8 @@ module.exports = {
     PORT : process.env.PORT || 3000,
     NODE_ENV : process.env.NODE_ENV,
     DB_URL : process.env.DB_URL,
-    PROJECT_ID : process.env.PROJECT_ID,
-    BUCKET_NAME : process.env.BUCKET_NAME,
-    KEY_FILE_NAME : process.env.KEY_FILE_NAME
+    BUCKETNAME : process.env.BUCKET_NAME,
+    BUCKETREGION : process.env.BUCKET_REGION,
+    ACCESSKEY : process.env.ACCESS_KEY,
+    SECRETACCESSKEY : process.env.SECRET_ACCESS_KEY
 }

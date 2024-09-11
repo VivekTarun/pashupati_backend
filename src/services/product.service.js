@@ -1,62 +1,44 @@
-const { bucket } = require('../config');
-const deleteFile = require('../utils/deleteFile');
-const fs = require('fs').promises;
-const path = require('path');
-const {imageConverter} = require('../utils/index');
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const crypto = require('crypto');
+const {BUCKETNAME, BUCKETREGION, ACCESSKEY, SECRETACCESSKEY} = require('../config/server.config')
+const sharp = require('sharp');
+
 
 class ProductService {
     constructor(productRepository) {
         this.productRepository = productRepository;
     }
 
-    async postProduct(title, description, amount, category, imageFile) {
+    async postProduct(title, description, amount, category, gender, material, imageFile) {
 
-        const imageFile = imageConverter(imageFile);
+        const s3 = new S3Client({
+            credentials: {
+                accessKeyId: ACCESSKEY,
+                secretAccessKey: SECRETACCESSKEY
+            },
+            region: BUCKETREGION
+        });
+        
+        const buffer = await sharp(imageFile.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer();
 
-        const imageName = Date.now() + '-' + imageFile.originalname;
-        const file = bucket.file(imageName);
+        const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
-        try {
+        const imageName = randomImageName();
 
-            // Ensure imageFile has buffer and mimetype
-            if (!imageFile || !imageFile.buffer || !imageFile.mimetype) {
-                throw new Error('Invalid image file');
-            }
-
-            console.log('Uploading file to GCS...');
-            await new Promise((resolve, reject) => {
-                const blobStream = file.createWriteStream({
-                    resumable: false,
-                    contentType: imageFile.mimetype,
-                });
-
-                blobStream.on('error', reject);
-                blobStream.on('finish', resolve);
-                blobStream.end(imageFile.buffer);
-            });
-
-            console.log('File uploaded to GCS. Saving to MongoDB...');
-            const imageUrl = `https://storage.googleapis.com/${bucket.name}/${imageName}`;
-            const productData = { title, description, amount, category, imageUrl };
-            const product = await this.productRepository.postProduct(productData);
-
-            // Optionally delete the local file if stored on disk by multer
-            if (imageFile.path) {
-                await deleteFile(imageFile.path);
-            }
-
-            console.log('Product saved to MongoDB.');
-            return product;
-        } catch (error) {
-            console.error('Error occurred:', error);
-
-            // Ensure the file is deleted even if upload fails
-            if (imageFile.path) {
-                await deleteFile(imageFile.path);
-            }
-
-            throw error;
+        const params = {
+            Bucket: BUCKETNAME,
+            Key: imageName,
+            Body: buffer,
+            contentType: imageFile.mimetype
         }
+
+        const command = new PutObjectCommand(params)
+
+        await s3.send(command);
+       
+        const product = await this.productRepository.postProduct(title, description, amount, category, gender, material, imageName);
+        console.log(title, description, amount, category, gender, material, imageName)
+        return product;
     }
 
     async getProduct(productID) {
@@ -65,8 +47,8 @@ class ProductService {
     }
 
     async getProducts() {
-        const product = await this.productRepository.getProducts();
-        return product;
+        const products = await this.productRepository.getProducts();
+        return products;
     }
 
     async getProductByCategory(categoryID) {
@@ -80,51 +62,9 @@ class ProductService {
     }
 
     async updateProduct(id, title, description, amount, category, imageFile) {
-        const imageName = Date.now() + '-' + imageFile.originalname;
-        const file = bucket.file(imageName);
 
-        try {
-
-            // Ensure imageFile has buffer and mimetype
-            if (!imageFile || !imageFile.buffer || !imageFile.mimetype) {
-                throw new Error('Invalid image file');
-            }
-
-            console.log('Uploading file to GCS...');
-            await new Promise((resolve, reject) => {
-                const blobStream = file.createWriteStream({
-                    resumable: false,
-                    contentType: imageFile.mimetype,
-                });
-
-                blobStream.on('error', reject);
-                blobStream.on('finish', resolve);
-                blobStream.end(imageFile.buffer);
-            });
-
-            console.log('File uploaded to GCS. Saving to MongoDB...');
-            const imageUrl = `https://storage.googleapis.com/${bucket.name}/${imageName}`;
-            const productData = { title, description, amount, category, imageUrl };
-            const product = await this.productRepository.updateProduct(id, productData);
-
-            // Optionally delete the local file if stored on disk by multer
-            if (imageFile.path) {
-                await deleteFile(imageFile.path);
-            }
-
-            console.log('Product saved to MongoDB.');
-            return product;
-        } catch (error) {
-            console.error('Error occurred:', error);
-
-            // Ensure the file is deleted even if upload fails
-            if (imageFile.path) {
-                await deleteFile(imageFile.path);
-            }
-
-            throw error;
-        }
     }
+        
 
 }
 

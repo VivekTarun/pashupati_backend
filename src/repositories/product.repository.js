@@ -2,14 +2,16 @@ const Product = require('../models/product.model');
 const BadRequest = require("../errors/badRequest.error");
 
 class ProductRepository {
-    async postProduct(data) {
+    async postProduct(title, description, amount, category, gender, material, imageName) {
         try {
             const product = await Product.create({
-                title: data.title,
-                imageUrl: data.imageUrl,
-                description: data.description,
-                amount: data.amount,
-                category: data.category
+                title: title,
+                imageName: imageName,
+                description: description,
+                amount: amount,
+                category: category,
+                material : material,
+                gender : gender
             });
             return product
         } catch (error) {

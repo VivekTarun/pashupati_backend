@@ -6,7 +6,7 @@ const ProductSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    imageUrl: { 
+    imageName: { 
         type: String, 
         required: true 
     },
@@ -23,6 +23,16 @@ const ProductSchema = new mongoose.Schema({
         ref: 'Category', 
         required: true 
     },
+    gender: {
+        type: String,
+        enum: ['men', 'women'], // Enum for gender
+        required: true
+    },
+    material: {
+        type: String,
+        enum: ['gold', 'silver'], // Enum for material
+        required: true
+    }
 });
 
 const Product = mongoose.model('Product', ProductSchema);

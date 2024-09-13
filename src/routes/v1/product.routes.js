@@ -5,6 +5,7 @@ const multer = require('multer');
 const productRouter = express.Router();
 
 const storage = multer.memoryStorage();
+
 const upload = multer({storage: storage});
 
 productRouter.get('/ping', productController.pingProductController);
@@ -18,8 +19,8 @@ productRouter.get('/bycategory/:categoryid', productController.getProductByCateg
 
 productRouter.delete('/:id', productController.deleteProduct);
 
-productRouter.put('/:id', upload.single('image'), productController.updateProduct);
+productRouter.put('/:id', upload.array('images', 10), productController.updateProduct);
 
-productRouter.post('/', upload.single('image'), productController.postProduct);
+productRouter.post('/', upload.array('images', 10), productController.postProduct);
 
 module.exports = productRouter;

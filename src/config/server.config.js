@@ -9,5 +9,6 @@ module.exports = {
     BUCKETNAME : process.env.BUCKET_NAME,
     BUCKETREGION : process.env.BUCKET_REGION,
     ACCESSKEY : process.env.ACCESS_KEY,
-    SECRETACCESSKEY : process.env.SECRET_ACCESS_KEY
+    SECRETACCESSKEY : process.env.SECRET_ACCESS_KEY,
+    API_KEY : process.env.API_KEY
 }

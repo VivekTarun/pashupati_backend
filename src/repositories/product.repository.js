@@ -6,7 +6,7 @@ const BadRequest = require("../errors/badRequest.error");
 
 class ProductRepository {
     // Post a product with an array of image names
-    async postProduct(title, description, amount, category, gender, material, imageNames) {
+    async postProduct(title, description, amount, category, gender, metalType, imageNames) {
         try {
             const product = await Product.create({
                 title: title,
@@ -14,7 +14,7 @@ class ProductRepository {
                 description: description,
                 amount: amount,
                 category: category,
-                material: material,
+                metalType: metalType,
                 gender: gender
             });
             return product;
@@ -25,7 +25,7 @@ class ProductRepository {
     }
 
     // Update product with new data, including updating the image names array
-    async updateProduct(productID, title, description, amount, category, gender, material, imageNames = []) {
+    async updateProduct(productID, title, description, amount, category, gender, metalType, imageNames = []) {
         try {
             
     
@@ -36,7 +36,7 @@ class ProductRepository {
                 amount,
                 category,
                 gender,
-                material,
+                metalType,
                 imageNames: imageNames.length > 0 ? imageNames : undefined // Include imageNames only if provided
             };
     
@@ -69,9 +69,9 @@ class ProductRepository {
     
 
     // Get all products
-    async getProducts() {
+    async getProducts(filter) {
         try {
-            const products = await Product.find({});
+            const products = await Product.find(filter);
             return products;
         } catch (error) {
             console.log(error);

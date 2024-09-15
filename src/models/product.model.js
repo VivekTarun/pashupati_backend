@@ -25,10 +25,10 @@ const ProductSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['men', 'women'], // Enum for gender
+        enum: ['male', 'female'], // Enum for gender
         required: true
     },
-    material: {
+    metalType: {
         type: String,
         enum: ['gold', 'silver'], // Enum for material
         required: true

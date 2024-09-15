@@ -11,7 +11,9 @@ function pingProductController(req, res) {
 
 async function getProducts(req, res, next) {
     try {
-        const product = await productService.getProducts();
+        const productQuery = req.query;
+        const product = await productService.getProducts(productQuery);
+
         return res.status(StatusCodes.OK).json({
             success : true,
             message : `successfully fetched the product`,
@@ -58,9 +60,9 @@ async function updateProduct(req, res, next) {
     try {
         const productID = req.params.id;
         const imageFile = req.files;
-        const {title, description, amount, category, gender, material} = req.body;
+        const {title, description, amount, category, gender, metalType} = req.body;
 
-        const product = await productService.updateProduct(productID, title, description, amount, category, gender, material, imageFile);
+        const product = await productService.updateProduct(productID, title, description, amount, category, gender, metalType, imageFile);
         console.log("back to controller");
         return res.status(StatusCodes.OK).json({
             success : true,
@@ -73,16 +75,14 @@ async function updateProduct(req, res, next) {
     }
 }
 
-
-
 async function postProduct(req, res, next) {
     
     try {
-        const {title, description, amount, category, gender, material} = req.body;
+        const {title, description, amount, category, gender, metalType} = req.body;
         const imageFile = req.files;
         console.log(req.body);
         console.log(req.files);
-        const product = await productService.postProduct(title, description, amount, category, gender, material, imageFile);
+        const product = await productService.postProduct(title, description, amount, category, gender, metalType, imageFile);
         return res.status(StatusCodes.CREATED).json({
             success : true,
             message : `successfully added the product`,

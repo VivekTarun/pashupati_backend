@@ -46,7 +46,7 @@ class ProductService {
     }
 
     // Post product with an array of images
-    async postProduct(title, description, amount, category, gender, material, imageFiles) {
+    async postProduct(title, description, amount, category, gender, metalType, imageFiles) {
         const uploadedImages = await this.uploadImagesToS3(imageFiles);
 
         const product = await this.productRepository.postProduct(
@@ -55,10 +55,10 @@ class ProductService {
             amount,
             category,
             gender,
-            material,
+            metalType,
             uploadedImages // Store the array of image names
         );
-        console.log(title, description, amount, category, gender, material, uploadedImages);
+        console.log(title, description, amount, category, gender, metalType, uploadedImages);
         return product;
     }
 
@@ -76,13 +76,20 @@ class ProductService {
             return await getSignedUrl(s3, command, { expiresIn: 3600 });
         }));
 
-        product.imageUrls = imageUrls; // Attach signed URLs for all images
+        product.imageNames = imageUrls; // Attach signed URLs for all images
         return product;
     }
 
     // Get all products and generate signed URLs for each image in each product
-    async getProducts() {
-        const products = await this.productRepository.getProducts();
+    async getProducts(productQuery) {
+
+        const {gender, metalType} = productQuery;
+
+        const filter = {};
+        if(gender) filter.gender = gender;
+        if(metalType) filter.metalType = metalType;
+
+        const products = await this.productRepository.getProducts(filter);
 
         for (const product of products) {
             const imageUrls = await Promise.all(product.imageNames.map(async (imageName) => {
@@ -95,7 +102,7 @@ class ProductService {
                 return await getSignedUrl(s3, command, { expiresIn: 3600 });
             }));
 
-            product.imageUrls = imageUrls; // Attach signed URLs for all images
+            product.imageNames = imageUrls; // Attach signed URLs for all images
         }
 
         return products;
@@ -116,7 +123,7 @@ class ProductService {
                 return await getSignedUrl(s3, command, { expiresIn: 3600 });
             }));
 
-            product.imageUrls = imageUrls;
+            product.imageNames = imageUrls;
         }
 
         return products;
@@ -159,7 +166,7 @@ class ProductService {
             amount,
             category,
             gender,
-            material,
+            metalType,
             uploadedImages.length > 0 ? uploadedImages : undefined // Pass the new images array if available
         );
 

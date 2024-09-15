@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const Product = require('../models/product.model');
@@ -27,8 +26,6 @@ class ProductRepository {
     // Update product with new data, including updating the image names array
     async updateProduct(productID, title, description, amount, category, gender, metalType, imageNames = []) {
         try {
-            
-    
             // Prepare the updated product data
             const updateData = {
                 title,
@@ -49,25 +46,29 @@ class ProductRepository {
             }
     
             // Return the updated product
-            console.log('Updated Product:', updatedProduct);
             return updatedProduct;
         } catch (error) {
             // Validate productID
             if (!mongoose.Types.ObjectId.isValid(productID)) {
                 throw new BadRequest(productID, "Product ID is not valid");
             }
+
+            // Validate category ID
+            if (!mongoose.Types.ObjectId.isValid(category)) {
+                throw new BadRequest(category, "Category ID is not valid");
+            }
+
             // Handle specific errors
             if (error.name === "CastError") {
-                throw new BadRequest(productID, "Product ID is not valid");
+                throw new BadRequest(productID, "Product ID or Category ID is not valid");
             }
+
             // Log and rethrow other errors
             console.log('Update Error:', error);
             throw error;
         }
     }
     
-    
-
     // Get all products
     async getProducts(filter) {
         try {

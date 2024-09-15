@@ -38,7 +38,6 @@ async function getProduct(req, res, next) {
     } catch(error) {
         next(error);
     }
-
 }
 
 async function deleteProduct(req, res, next) {
@@ -63,7 +62,6 @@ async function updateProduct(req, res, next) {
         const {title, description, amount, category, gender, metalType} = req.body;
 
         const product = await productService.updateProduct(productID, title, description, amount, category, gender, metalType, imageFile);
-        console.log("back to controller");
         return res.status(StatusCodes.OK).json({
             success : true,
             message : `successfully updated the product`,
@@ -76,12 +74,10 @@ async function updateProduct(req, res, next) {
 }
 
 async function postProduct(req, res, next) {
-    
     try {
         const {title, description, amount, category, gender, metalType} = req.body;
         const imageFile = req.files;
-        console.log(req.body);
-        console.log(req.files);
+
         const product = await productService.postProduct(title, description, amount, category, gender, metalType, imageFile);
         return res.status(StatusCodes.CREATED).json({
             success : true,

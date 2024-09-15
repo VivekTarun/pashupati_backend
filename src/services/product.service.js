@@ -1,16 +1,10 @@
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require('crypto');
-const { BUCKETNAME, BUCKETREGION, ACCESSKEY, SECRETACCESSKEY } = require('../config/server.config');
+const { BUCKETNAME} = require('../config/server.config');
 const sharp = require('sharp');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const {s3} = require('../config/index');
 
-const s3 = new S3Client({
-    credentials: {
-        accessKeyId: ACCESSKEY,
-        secretAccessKey: SECRETACCESSKEY
-    },
-    region: BUCKETREGION
-});
 
 class ProductService {
     constructor(productRepository) {
@@ -58,7 +52,6 @@ class ProductService {
             metalType,
             uploadedImages // Store the array of image names
         );
-        console.log(title, description, amount, category, gender, metalType, uploadedImages);
         return product;
     }
 
@@ -150,7 +143,7 @@ class ProductService {
     }
 
     // Update product details and optionally update the images in S3
-    async updateProduct(id, title, description, amount, category, gender, material, imageFiles = null) {
+    async updateProduct(id, title, description, amount, category, gender, metalType, imageFiles = null) {
         let uploadedImages = [];
 
         // If there are new image files, upload them to S3
@@ -169,7 +162,6 @@ class ProductService {
             metalType,
             uploadedImages.length > 0 ? uploadedImages : undefined // Pass the new images array if available
         );
-
         return updatedProduct;
     }
 }

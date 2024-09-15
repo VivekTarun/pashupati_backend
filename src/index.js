@@ -5,7 +5,7 @@ const {connectToDB} = require('./config/index')
 const apiRouter = require('./routes');
 const errorHandler = require('./utils/errorHandler');
 const { StatusCodes } = require('http-status-codes');
-const rateLimit = require('express-rate-limit');
+const apiLimiter = require('./utils/rateLimit')
 
 const app = express();
 
@@ -13,12 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.text());
 
-// Rate limiting middleware
-const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.'
-  });
+
 
 app.use('/api', apiLimiter, apiRouter);
 

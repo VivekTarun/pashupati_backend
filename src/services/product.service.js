@@ -17,9 +17,26 @@ class ProductService {
 
     // Helper function to upload a single image to S3
     async uploadImageToS3(imageFile) {
-        const buffer = await sharp(imageFile.buffer)
-            .resize({ height: 1920, width: 1080, fit: "contain" })
+        const targetSize = 3 * 1024 * 1024; // 5 MB
+        let quality = 80; // Start with a quality level
+
+        let buffer = await sharp(imageFile.buffer)
+            .resize({ height: 500, width: 300, fit: 'contain' })
+            .jpeg({ quality }) // Start with JPEG quality
             .toBuffer();
+
+        // Check if the image size exceeds 5 MB
+        while (buffer.length > targetSize && quality > 0) {
+            quality -= 10; // Decrease quality by 10%
+            buffer = await sharp(imageFile.buffer)
+                .resize({ height: 1920, width: 1080, fit: 'contain' })
+                .jpeg({ quality }) // Apply the new quality
+                .toBuffer();
+        }
+
+        if (buffer.length > targetSize) {
+            throw new Error('Could not reduce the image size to under 3 MB.');
+        }
 
         const params = {
             Bucket: BUCKETNAME,

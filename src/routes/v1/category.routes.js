@@ -1,20 +1,21 @@
 const express = require('express');
 
 const {categoryController} = require('../../controllers/index');
+const apiKeyMiddleware = require('../../utils/apiKeyMiddleware');
 
 const categoryRouter = express.Router();
 
 categoryRouter.get('/ping', categoryController.pingCategoryController);
 
-categoryRouter.get('/', categoryController.getCategories);
 
-categoryRouter.get('/:id', categoryController.getCatetory);
+categoryRouter.get('/', apiKeyMiddleware, categoryController.getCategories);
 
-categoryRouter.delete('/:id', categoryController.deleteCategory);
+categoryRouter.get('/:id', apiKeyMiddleware, categoryController.getCatetory);
 
-categoryRouter.put('/:id', categoryController.updateCategory);
+categoryRouter.delete('/:id', apiKeyMiddleware, categoryController.deleteCategory);
 
-categoryRouter.post('/', categoryController.addCategory);
+categoryRouter.put('/:id', apiKeyMiddleware, categoryController.updateCategory);
 
-module.exports = categoryRouter;
+categoryRouter.post('/', apiKeyMiddleware, categoryController.addCategory);
 
+module.exports = categoryRouter

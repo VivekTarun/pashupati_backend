@@ -1,0 +1,404 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Pashupati Jewellers APIs",
+    "description": "API documentation for the inventory",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "paths": {
+    "/ping": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "tags": ["Health Check"]
+      }
+    },
+    "/api/v1/product/ping": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "tags": ["Product"]
+      }
+    },
+    "/api/v1/product/": {
+    "get": {
+      "description": "Retrieve all products with optional filtering by gender and metal type.",
+      "parameters": [
+        {
+          "name": "gender",
+          "in": "query",
+          "type": "string",
+          "enum": ["male", "female", "unisex"],
+          "description": "Filter products by gender."
+        },
+        {
+          "name": "metalType",
+          "in": "query",
+          "type": "string",
+          "enum": ["gold", "silver", "platinum", "other"],
+          "description": "Filter products by metal type."
+        },
+        {
+          "name": "x-api-key",
+          "in": "header",
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "A list of products matching the filter criteria.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request if the filter values are invalid."
+        },
+        "403": {
+          "description": "Forbidden"
+        }
+      },
+      "tags": ["Product"]
+    },
+      "post": {
+        "description": "Create a new product",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "description": "Product object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Product"]
+      }
+    },
+    "/api/v1/product/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Product"]
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Product"]
+      },
+      "put": {
+        "description": "Update an existing product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "description": "Product object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Product"]
+      }
+    },
+    "/api/v1/product/bycategory/{categoryid}": {
+      "get": {
+        "description": "Get products by category ID",
+        "parameters": [
+          {
+            "name": "categoryid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Product"]
+      }
+    },
+    "/api/v1/category/ping": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "tags": ["Category"]
+      }
+    },
+    "/api/v1/category/": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Category"]
+      },
+      "post": {
+        "description": "Create a new category",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "body",
+            "description": "Category object to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Category"]
+      }
+    },
+    "/api/v1/category/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Category"]
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Category"]
+      },
+      "put": {
+        "description": "Update an existing category",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "category",
+            "in": "body",
+            "description": "Category object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": ["Category"]
+      }
+    }
+  },
+  "definitions": {
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the category, generated by MongoDB",
+          "example": "614c2f15f2d2b1944a5bb4b5"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the category",
+          "example": "Rings"
+        }
+      },
+      "required": ["name"]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the product, generated by MongoDB",
+          "example": "64d8f9349c4f99e3db7b0a25"
+        },
+        "title": {
+          "type": "string",
+          "description": "Name of the product",
+          "example": "Gold Ring"
+        },
+        "imageNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of image file names",
+          "example": ["image1.jpg", "image2.jpg"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the product",
+          "example": "A beautiful gold ring."
+        },
+        "amount": {
+          "type": "number",
+          "description": "Amount or stock quantity of the product",
+          "example": 10
+        },
+        "category": {
+          "type": "string",
+          "description": "ID of the product's category",
+          "example": "614c2f15f2d2b1944a5bb4b5"
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["male", "female", "unisex"],
+          "description": "Gender specification of the product",
+          "example": "unisex"
+        },
+        "metalType": {
+          "type": "string",
+          "description": "Metal type of the product",
+          "example": "gold"
+        }
+      },
+      "required": ["title", "imageNames", "description", "amount", "category", "gender", "metalType"]
+    }
+  }
+}

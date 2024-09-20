@@ -6,12 +6,16 @@ const apiRouter = require('./routes');
 const errorHandler = require('./utils/errorHandler');
 const { StatusCodes } = require('http-status-codes');
 const apiLimiter = require('./utils/rateLimit')
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./utils/swagger-output.json'); // The generated Swagger file
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.text());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use('/api', apiLimiter, apiRouter);
 

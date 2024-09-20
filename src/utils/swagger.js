@@ -6,7 +6,7 @@ const doc = {
         description: 'API documentation for the inventory',
         version: '1.0.0',
     },
-    host: 'localhost:3000',
+    host: `http://3.110.107.26:3000/` || "localhost:3000",
     schemes: ['http'],
     definitions: {
         Category: {

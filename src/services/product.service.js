@@ -35,7 +35,7 @@ class ProductService {
         }
 
         if (buffer.length > targetSize) {
-            throw new Error('Could not reduce the image size to under 5 MB.');
+            throw new Error('Could not reduce the image size to under 3 MB.');
         }
 
         const params = {

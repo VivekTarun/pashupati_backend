@@ -12,10 +12,10 @@ const corsConfig = require('./config/cors.config');
 
 const app = express();
 
+app.use(corsConfig);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.text());
-app.use(corsConfig);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 

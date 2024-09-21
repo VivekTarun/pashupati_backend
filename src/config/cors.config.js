@@ -1,5 +1,6 @@
 const cors = require('cors');
-const { FRONTEND_URL } = require('./server.config')
+const { FRONTEND_URL } = require('./server.config');
+
 // CORS options setup
 const corsOptions = {
     origin: (origin, callback) => {
@@ -13,7 +14,7 @@ const corsOptions = {
         }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],  // Include x-api-key in allowed headers
     credentials: true,
 };
 

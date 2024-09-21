@@ -15,10 +15,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.text());
+app.use(corsConfig);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.use('/api', corsConfig, apiLimiter, apiRouter);
+app.use('/api', apiLimiter, apiRouter);
 
 app.get('/ping', (req, res) => {
     return res.status(StatusCodes.OK).json({message : 'pashupati backend server is alive'});

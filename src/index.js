@@ -8,6 +8,7 @@ const { StatusCodes } = require('http-status-codes');
 const apiLimiter = require('./utils/rateLimit')
 const swaggerUi = require('swagger-ui-express');
 const swaggerFile = require('./utils/swagger-output.json'); // The generated Swagger file
+const corsConfig = require('./config/cors.config');
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(bodyParser.text());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
-app.use('/api', apiLimiter, apiRouter);
+app.use('/api', corsConfig, apiLimiter, apiRouter);
 
 app.get('/ping', (req, res) => {
     return res.status(StatusCodes.OK).json({message : 'pashupati backend server is alive'});

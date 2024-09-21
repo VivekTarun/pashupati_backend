@@ -10,5 +10,6 @@ module.exports = {
     BUCKETREGION : process.env.BUCKET_REGION,
     ACCESSKEY : process.env.ACCESS_KEY,
     SECRETACCESSKEY : process.env.SECRET_ACCESS_KEY,
-    API_KEY : process.env.API_KEY
+    API_KEY : process.env.API_KEY,
+    FRONTEND_URL : process.env.FRONTEND_URL
 }
